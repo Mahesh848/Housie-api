@@ -1,7 +1,6 @@
 package com.housie.model;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 @Table(name="games")
@@ -12,13 +11,15 @@ public class Game {
     private Integer id;
 
     @Column(name = "uuid")
-    private UUID uuid;
+    private String uuid;
 
     @Column(name = "passcode")
     private String passcode;
 
     @Column(name = "ticket_price")
     private Integer ticketPrice;
+
+    public Game() {}
 
     public Game(String passcode, Integer ticketPrice) {
         this.passcode = passcode;
@@ -33,11 +34,11 @@ public class Game {
         this.id = id;
     }
 
-    public UUID getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 

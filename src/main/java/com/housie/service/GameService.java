@@ -1,9 +1,11 @@
 package com.housie.service;
 
 import com.housie.model.Game;
-
-import java.util.UUID;
+import com.housie.model.ParticipantRequest;
 
 public interface GameService {
-    UUID create(Game game);
+
+    String create(Game game);
+
+    void addParticipant(ParticipantRequest participantRequest);
 }
