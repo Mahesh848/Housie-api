@@ -2,6 +2,7 @@ package com.housie.dao.impl;
 
 import com.housie.dao.GameDao;
 import com.housie.model.Game;
+import com.housie.model.Number;
 import com.housie.model.Participant;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -50,6 +51,14 @@ public class GameDaoImpl implements GameDao {
         Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
         session.save(participant);
+        transaction.commit();
+    }
+
+    @Override
+    public void addNumber(Number number) {
+        Session session = sessionFactory.getCurrentSession();
+        Transaction transaction = session.beginTransaction();
+        session.save(number);
         transaction.commit();
     }
 }

@@ -1,6 +1,7 @@
 package com.housie.dao;
 
 import com.housie.model.Game;
+import com.housie.model.Number;
 import com.housie.model.Participant;
 
 public interface GameDao {
@@ -9,4 +10,6 @@ public interface GameDao {
     Game getByUuid(String game);
 
     void addParticipant(Participant participant);
+
+    void addNumber(Number number);
 }

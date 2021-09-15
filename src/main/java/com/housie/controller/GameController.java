@@ -1,6 +1,7 @@
 package com.housie.controller;
 
 import com.housie.model.Game;
+import com.housie.model.NumberRequest;
 import com.housie.model.ParticipantRequest;
 import com.housie.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,11 @@ public class GameController {
         } catch (NoResultException e) {
             return "Invalid game";
         }
+    }
+
+    @RequestMapping(value = "/add-number", method = RequestMethod.POST)
+    public void addNumber(@RequestBody NumberRequest numberRequest) {
+        gameService.addNumber(numberRequest);
     }
 
 }
