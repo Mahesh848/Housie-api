@@ -1,4 +1,4 @@
-package com.housie.model;
+package com.housie.model.web;
 
 public class ParticipantRequest {
     private String name;

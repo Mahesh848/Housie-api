@@ -30,28 +30,30 @@ public class GameDaoImpl implements GameDao {
     }
 
     @Override
-    public Game getByUuid(String game) {
+    public Game getByUuid(String gameUuid) {
         Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
 
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Game> query = builder.createQuery(Game.class);
         Root<Game> root = query.from(Game.class);
-        query.select(root).where(builder.equal(root.get("uuid"), game));
+        query.select(root).where(builder.equal(root.get("uuid"), gameUuid));
         Query<Game> q = session.createQuery(query);
-        Game g = q.getSingleResult();
+        Game game = q.getSingleResult();
 
         transaction.commit();
 
-        return g;
+        return game;
     }
 
     @Override
-    public void addParticipant(Participant participant) {
+    public Participant addParticipant(Participant participant) {
         Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
-        session.save(participant);
+        Integer id = (Integer) session.save(participant);
         transaction.commit();
+        participant.setId(id);
+        return participant;
     }
 
     @Override

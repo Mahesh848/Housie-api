@@ -9,7 +9,7 @@ public interface GameDao {
 
     Game getByUuid(String game);
 
-    void addParticipant(Participant participant);
+    Participant addParticipant(Participant participant);
 
     void addNumber(Number number);
 }
