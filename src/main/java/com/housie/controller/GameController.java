@@ -27,18 +27,20 @@ public class GameController {
             GameResponse gameResponse = gameService.create(gameRequest);
             return new ResponseEntity<>(gameResponse, HttpStatus.OK);
         } catch (RuntimeException exception) {
+            System.out.println(exception.getStackTrace());
             ErrorResponse response = new ErrorResponse("Failed to create game due to Internal Server Error");
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @RequestMapping(value = "/add-participant", method = RequestMethod.POST)
-    public String addUser(@RequestBody ParticipantRequest participantRequest) {
+    @RequestMapping(value = "/join", method = RequestMethod.POST)
+    public ResponseEntity<?> join(@RequestBody ParticipantRequest participantRequest) {
         try {
             gameService.addParticipant(participantRequest);
-            return "SuccessFully added to the game";
+            return new ResponseEntity<>("SuccessFully added to the game", HttpStatus.OK);
         } catch (NoResultException e) {
-            return "Invalid game";
+            ErrorResponse response = new ErrorResponse("Invalid game");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
 
