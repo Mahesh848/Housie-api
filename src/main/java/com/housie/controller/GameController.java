@@ -8,7 +8,6 @@ import com.housie.model.ParticipantRequest;
 import com.housie.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,10 +42,4 @@ public class GameController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
-
-    @RequestMapping(value = "/add-number", method = RequestMethod.POST)
-    public void addNumber(@RequestBody NumberRequest numberRequest) {
-        gameService.addNumber(numberRequest);
-    }
-
 }
