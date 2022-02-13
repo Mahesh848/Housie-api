@@ -1,5 +1,6 @@
 package com.housie.controller;
 
+import com.housie.model.HousieException;
 import com.housie.model.web.*;
 import com.housie.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,10 @@ public class GameController {
             exception.printStackTrace();
             ErrorResponse response = new ErrorResponse("Failed to start game due to Internal Server Error");
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (HousieException exception) {
+            exception.printStackTrace();
+            ErrorResponse response = new ErrorResponse(exception.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
 

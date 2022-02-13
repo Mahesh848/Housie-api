@@ -26,4 +26,8 @@ public class GameMapper {
         ParticipantResponse response = new ParticipantResponse(participant.getId());
         return response;
     }
+
+    public static Participant mapTo(ParticipantRequest participantRequest, Game game) {
+        return new Participant(participantRequest.getName(), game);
+    }
 }

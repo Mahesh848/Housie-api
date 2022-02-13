@@ -19,6 +19,9 @@ public class Game {
     @Column(name = "ticket_price")
     private Integer ticketPrice;
 
+    @Column(name = "status")
+    private GameStatus status;
+
     public Game() {}
 
     public Game(String passcode, Integer ticketPrice) {
@@ -56,5 +59,13 @@ public class Game {
 
     public void setTicketPrice(Integer ticketPrice) {
         this.ticketPrice = ticketPrice;
+    }
+
+    public GameStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(GameStatus status) {
+        this.status = status;
     }
 }
