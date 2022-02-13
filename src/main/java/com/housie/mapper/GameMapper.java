@@ -18,7 +18,7 @@ public class GameMapper {
     }
 
     public static GameResponse mapTo(Game game) {
-        GameResponse gameResponse = new GameResponse(game.getUuid());
+        GameResponse gameResponse = new GameResponse(game.getUuid(), game.getCreatedBy().getName());
         return gameResponse;
     }
 

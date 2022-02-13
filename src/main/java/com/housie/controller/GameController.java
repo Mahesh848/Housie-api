@@ -23,7 +23,7 @@ public class GameController {
         try {
             GameResponse gameResponse = gameService.create(gameRequest);
             return new ResponseEntity<>(gameResponse, HttpStatus.OK);
-        } catch (RuntimeException exception) {
+        } catch (HousieException exception) {
             exception.printStackTrace();
             ErrorResponse response = new ErrorResponse("Failed to create game due to Internal Server Error");
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);

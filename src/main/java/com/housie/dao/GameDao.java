@@ -12,4 +12,6 @@ public interface GameDao {
     Participant addParticipant(Participant participant);
 
     void addNumber(Number number);
+
+    void update(Game game);
 }

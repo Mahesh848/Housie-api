@@ -5,7 +5,7 @@ import com.housie.model.web.*;
 
 public interface GameService {
 
-    GameResponse create(GameRequest gameRequest);
+    GameResponse create(GameRequest gameRequest) throws HousieException;
 
     ParticipantResponse addParticipant(ParticipantRequest participantRequest) throws HousieException;
 

@@ -22,6 +22,10 @@ public class Game {
     @Column(name = "status")
     private GameStatus status;
 
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "created_by")
+    private Participant createdBy;
+
     public Game() {}
 
     public Game(String passcode, Integer ticketPrice) {
@@ -67,5 +71,13 @@ public class Game {
 
     public void setStatus(GameStatus status) {
         this.status = status;
+    }
+
+    public Participant getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Participant createdBy) {
+        this.createdBy = createdBy;
     }
 }

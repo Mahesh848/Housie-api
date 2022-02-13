@@ -21,6 +21,8 @@ public class Participant {
         this.game = game;
     }
 
+    public Participant(){}
+
     public Integer getId() {
         return id;
     }

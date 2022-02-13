@@ -18,12 +18,16 @@ public class GameServiceImpl implements GameService {
     private GameDao gameDao;
 
     @Override
-    public GameResponse create(GameRequest gameRequest) {
+    public GameResponse create(GameRequest gameRequest) throws HousieException {
         Game game = GameMapper.mapTo(gameRequest);
         String uuid = UUID.randomUUID().toString();
         game.setUuid(uuid);
         game.setStatus(GameStatus.IDEAL);
         gameDao.create(game);
+        Participant creator = createParticipantFrom(new ParticipantRequest(gameRequest.getCreatedBy(), game.getUuid()));
+        creator = gameDao.addParticipant(creator);
+        game.setCreatedBy(creator);
+        gameDao.update(game);
         return GameMapper.mapTo(game);
     }
 
