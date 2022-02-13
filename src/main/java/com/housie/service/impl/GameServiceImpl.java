@@ -1,9 +1,12 @@
 package com.housie.service.impl;
 
 import com.housie.dao.GameDao;
+import com.housie.mapper.GameMapper;
 import com.housie.model.Game;
 import com.housie.model.Number;
-import com.housie.model.NumberRequest;
+import com.housie.model.web.GameRequest;
+import com.housie.model.web.GameResponse;
+import com.housie.model.web.NumberRequest;
 import com.housie.model.Participant;
 import com.housie.model.ParticipantRequest;
 import com.housie.service.GameService;
@@ -18,12 +21,16 @@ public class GameServiceImpl implements GameService {
     @Autowired
     private GameDao gameDao;
 
+    @Autowired
+    private GameMapper gameMapper;
+
     @Override
-    public String create(Game game) {
+    public GameResponse create(GameRequest gameRequest) {
+        Game game = gameMapper.mapTo(gameRequest);
         String uuid = UUID.randomUUID().toString();
         game.setUuid(uuid);
         gameDao.create(game);
-        return uuid;
+        return gameMapper.mapTo(game);
     }
 
     @Override

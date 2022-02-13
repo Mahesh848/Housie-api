@@ -1,4 +1,4 @@
-package com.housie.model;
+package com.housie.model.web;
 
 public class NumberRequest {
     private String game;
