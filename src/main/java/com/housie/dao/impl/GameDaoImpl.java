@@ -69,7 +69,7 @@ public class GameDaoImpl implements GameDao {
         Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
         Game gameInDb = session.load(Game.class, game.getId());
-        gameInDb.setCreatedBy(game.getCreatedBy());
+        gameInDb.update(game);
         session.update(gameInDb);
         transaction.commit();
     }

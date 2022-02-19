@@ -44,6 +44,17 @@ public class GameServiceImpl implements GameService {
         gameDao.addNumber(number);
     }
 
+    @Override
+    public void startGame(StartRequest startRequest) throws HousieException {
+        Game game = gameDao.getByUuid(startRequest.getUuid());
+        if (!game.getCreatedBy().getName().equals(startRequest.getParticipant()) ||
+                game.getStatus().equals(GameStatus.IN_PROGRESS) || game.getStatus().equals(GameStatus.DONE))
+            throw new HousieException("You are not allowed to do this operation");
+        game.setStatus(GameStatus.IN_PROGRESS);
+        gameDao.update(game);
+    }
+
+
     private Number createNumberFrom(NumberRequest numberRequest) {
         Game game = gameDao.getByUuid(numberRequest.getGame());
         return new Number(numberRequest.getNumber(), game);

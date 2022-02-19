@@ -53,4 +53,20 @@ public class GameController {
         }
     }
 
+    @RequestMapping(value = "/start", method = RequestMethod.POST)
+    public ResponseEntity<?> start(@RequestBody StartRequest startRequest) {
+        try {
+            gameService.startGame(startRequest);
+            return new ResponseEntity<>("game started successfully", HttpStatus.OK);
+        } catch (NoResultException exception) {
+            exception.printStackTrace();
+            ErrorResponse response = new ErrorResponse("Invalid game");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        } catch (HousieException exception) {
+            exception.printStackTrace();
+            ErrorResponse response = new ErrorResponse(exception.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

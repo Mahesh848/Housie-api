@@ -10,4 +10,6 @@ public interface GameService {
     ParticipantResponse addParticipant(ParticipantRequest participantRequest) throws HousieException;
 
     void addNumber(NumberRequest numberRequest);
+
+    void startGame(StartRequest startRequest) throws HousieException;
 }

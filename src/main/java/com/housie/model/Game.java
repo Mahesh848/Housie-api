@@ -80,4 +80,9 @@ public class Game {
     public void setCreatedBy(Participant createdBy) {
         this.createdBy = createdBy;
     }
+
+    public void update(Game game) {
+        this.setCreatedBy(game.getCreatedBy());
+        this.setStatus(game.getStatus());
+    }
 }
