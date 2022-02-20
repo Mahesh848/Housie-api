@@ -69,4 +69,16 @@ public class GameController {
         }
     }
 
+    @RequestMapping(value = "/stop", method = RequestMethod.POST)
+    public ResponseEntity<?> stop(@RequestBody String gameUuid) {
+        try {
+            gameService.stopGame(gameUuid);
+            return new ResponseEntity<>("game stopped successfully", HttpStatus.OK);
+        } catch (NoResultException exception) {
+            exception.printStackTrace();
+            ErrorResponse response = new ErrorResponse("Invalid game");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

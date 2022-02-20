@@ -12,4 +12,6 @@ public interface GameService {
     void addNumber(NumberRequest numberRequest);
 
     void startGame(StartRequest startRequest) throws HousieException;
+
+    void stopGame(String gameUuid);
 }

@@ -9,13 +9,15 @@ import com.housie.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class GameServiceImpl implements GameService {
 
     @Autowired
     private GameDao gameDao;
+
+    private Map<String, Timer> gameToTimerMap = new HashMap<>();
 
     @Override
     public GameResponse create(GameRequest gameRequest) throws HousieException {
@@ -52,6 +54,21 @@ public class GameServiceImpl implements GameService {
             throw new HousieException("You are not allowed to do this operation");
         game.setStatus(GameStatus.IN_PROGRESS);
         gameDao.update(game);
+
+        TimerTask numberGenerator = new NumberGenerator(game, gameDao);
+        Timer timer = new Timer("NumberGenerator: " + game.getUuid());
+        timer.schedule(numberGenerator, 5000, 5000);
+        gameToTimerMap.put(game.getUuid(), timer);
+    }
+
+    @Override
+    public void stopGame(String gameUuid) {
+        Game game = gameDao.getByUuid(gameUuid);
+        game.setStatus(GameStatus.DONE);
+        gameDao.update(game);
+
+        Timer timer = gameToTimerMap.get(gameUuid);
+        timer.cancel();
     }
 
 
