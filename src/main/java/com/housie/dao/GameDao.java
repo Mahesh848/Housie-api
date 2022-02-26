@@ -4,6 +4,8 @@ import com.housie.model.Game;
 import com.housie.model.Number;
 import com.housie.model.Participant;
 
+import java.util.List;
+
 public interface GameDao {
     void create(Game game);
 
@@ -11,7 +13,7 @@ public interface GameDao {
 
     Participant addParticipant(Participant participant);
 
-    void addNumber(Number number);
+    void addNumbers(List<Number> number);
 
     void update(Game game);
 }

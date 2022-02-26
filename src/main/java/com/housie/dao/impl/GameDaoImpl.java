@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.List;
 
 @Repository
 public class GameDaoImpl implements GameDao {
@@ -57,10 +58,12 @@ public class GameDaoImpl implements GameDao {
     }
 
     @Override
-    public void addNumber(Number number) {
+    public void addNumbers(List<Number> numbers) {
         Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
-        session.save(number);
+        for (Number number : numbers) {
+            session.save(number);
+        }
         transaction.commit();
     }
 

@@ -41,12 +41,6 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public void addNumber(NumberRequest numberRequest) {
-        Number number = createNumberFrom(numberRequest);
-        gameDao.addNumber(number);
-    }
-
-    @Override
     public void startGame(StartRequest startRequest) throws HousieException {
         Game game = gameDao.getByUuid(startRequest.getUuid());
         if (!game.getCreatedBy().getName().equals(startRequest.getParticipant()) ||
@@ -54,32 +48,43 @@ public class GameServiceImpl implements GameService {
             throw new HousieException("You are not allowed to do this operation");
         game.setStatus(GameStatus.IN_PROGRESS);
         gameDao.update(game);
-
-        TimerTask numberGenerator = new NumberGenerator(game, gameDao);
+        List<Number> numbers = generateNumbers(game);
+        gameDao.addNumbers(numbers);
+        TimerTask numberGenerator = new NumberGenerator(game, numbers);
         Timer timer = new Timer("NumberGenerator: " + game.getUuid());
-        timer.schedule(numberGenerator, 5000, 5000);
+        timer.schedule(numberGenerator, 3000, 5000);
         gameToTimerMap.put(game.getUuid(), timer);
     }
 
     @Override
     public void stopGame(String gameUuid) {
+        Timer timer = gameToTimerMap.get(gameUuid);
+        timer.cancel();
+
         Game game = gameDao.getByUuid(gameUuid);
         game.setStatus(GameStatus.DONE);
         gameDao.update(game);
-
-        Timer timer = gameToTimerMap.get(gameUuid);
-        timer.cancel();
-    }
-
-
-    private Number createNumberFrom(NumberRequest numberRequest) {
-        Game game = gameDao.getByUuid(numberRequest.getGame());
-        return new Number(numberRequest.getNumber(), game);
     }
 
     private Participant createParticipantFrom(ParticipantRequest participantRequest) throws HousieException {
         Game game = gameDao.getByUuid(participantRequest.getGame());
         if (game.getStatus() != GameStatus.IDEAL) throw new HousieException("You cannot join the game now");
         return GameMapper.mapTo(participantRequest, game);
+    }
+
+    private List<Number> generateNumbers(Game game) {
+        List<Number> numbers = new ArrayList<>();
+        Set<Integer> numbersSet = new HashSet<>();
+        Random random = new Random();
+        while (numbersSet.size() < 99) {
+            int number = random.nextInt(99) + 1;
+            while (numbersSet.contains(number)) {
+                number = random.nextInt(99) + 1;
+            }
+            numbersSet.add(number);
+            Number num = new Number(number, game);
+            numbers.add(num);
+        }
+        return numbers;
     }
 }
