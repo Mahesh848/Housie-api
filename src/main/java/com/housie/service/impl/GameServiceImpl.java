@@ -7,6 +7,7 @@ import com.housie.model.Number;
 import com.housie.model.web.*;
 import com.housie.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -16,6 +17,9 @@ public class GameServiceImpl implements GameService {
 
     @Autowired
     private GameDao gameDao;
+
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
 
     private Map<String, Timer> gameToTimerMap = new HashMap<>();
 
@@ -50,7 +54,7 @@ public class GameServiceImpl implements GameService {
         gameDao.update(game);
         List<Number> numbers = generateNumbers(game);
         gameDao.addNumbers(numbers);
-        TimerTask numberGenerator = new NumberGenerator(game, numbers);
+        TimerTask numberGenerator = new NumberGenerator(game, numbers, simpMessagingTemplate);
         Timer timer = new Timer("NumberGenerator: " + game.getUuid());
         timer.schedule(numberGenerator, 3000, 5000);
         gameToTimerMap.put(game.getUuid(), timer);
