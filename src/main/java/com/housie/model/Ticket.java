@@ -21,4 +21,32 @@ public class Ticket {
         this.numbers = numbers;
         this.participant = participant;
     }
+
+    public Ticket() {
+
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setNumbers(String numbers) {
+        this.numbers = numbers;
+    }
+
+    public void setParticipant(Participant participant) {
+        this.participant = participant;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getNumbers() {
+        return numbers;
+    }
+
+    public Participant getParticipant() {
+        return participant;
+    }
 }

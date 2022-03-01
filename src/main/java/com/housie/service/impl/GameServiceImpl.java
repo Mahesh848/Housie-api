@@ -79,6 +79,12 @@ public class GameServiceImpl implements GameService {
         gameDao.update(game);
     }
 
+    @Override
+    public List<TicketResponse> getTickets(String userId) {
+        List<Ticket> tickets = gameDao.getTickets(userId);
+        return GameMapper.mapTo(tickets);
+    }
+
     private Participant createParticipantFrom(ParticipantRequest participantRequest) throws HousieException {
         Game game = gameDao.getByUuid(participantRequest.getGame());
         if (game.getStatus() != GameStatus.IDEAL) throw new HousieException("You cannot join the game now");

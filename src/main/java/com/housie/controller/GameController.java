@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/game")
@@ -77,6 +78,18 @@ public class GameController {
         } catch (NoResultException exception) {
             exception.printStackTrace();
             ErrorResponse response = new ErrorResponse("Invalid game");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @RequestMapping(value = "/getTickets", method = RequestMethod.GET)
+    public ResponseEntity<?> getTickets(@RequestParam String userId) {
+        try {
+            List<TicketResponse> tickets = gameService.getTickets(userId);
+            return new ResponseEntity<>(tickets, HttpStatus.OK);
+        } catch (NoResultException exception) {
+            exception.printStackTrace();
+            ErrorResponse response = new ErrorResponse("Invalid user");
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }

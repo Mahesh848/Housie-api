@@ -19,4 +19,6 @@ public interface GameDao {
     void update(Game game);
 
     void saveTickets(List<Ticket> tickets);
+
+    List<Ticket> getTickets(String userId);
 }
