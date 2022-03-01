@@ -80,8 +80,8 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<TicketResponse> getTickets(String userId) {
-        List<Ticket> tickets = gameDao.getTickets(userId);
+    public List<TicketResponse> getTickets(String participantId) {
+        List<Ticket> tickets = gameDao.getTickets(participantId);
         return GameMapper.mapTo(tickets);
     }
 

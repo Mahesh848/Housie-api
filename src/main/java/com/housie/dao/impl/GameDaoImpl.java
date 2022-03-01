@@ -89,14 +89,14 @@ public class GameDaoImpl implements GameDao {
     }
 
     @Override
-    public List<Ticket> getTickets(String userId) {
+    public List<Ticket> getTickets(String participantId) {
         Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
 
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Ticket> query = builder.createQuery(Ticket.class);
         Root<Ticket> root = query.from(Ticket.class);
-        query.select(root).where(builder.equal(root.get("participant").get("id"), userId));
+        query.select(root).where(builder.equal(root.get("participant").get("id"), participantId));
         Query<Ticket> q = session.createQuery(query);
         List<Ticket> tickets = q.getResultList();
         transaction.commit();

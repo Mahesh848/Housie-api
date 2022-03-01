@@ -15,5 +15,5 @@ public interface GameService {
 
     void stopGame(String gameUuid);
 
-    List<TicketResponse> getTickets(String userId);
+    List<TicketResponse> getTickets(String participantId);
 }

@@ -20,5 +20,5 @@ public interface GameDao {
 
     void saveTickets(List<Ticket> tickets);
 
-    List<Ticket> getTickets(String userId);
+    List<Ticket> getTickets(String participantId);
 }

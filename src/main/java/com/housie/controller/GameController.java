@@ -83,9 +83,9 @@ public class GameController {
     }
 
     @RequestMapping(value = "/getTickets", method = RequestMethod.GET)
-    public ResponseEntity<?> getTickets(@RequestParam String userId) {
+    public ResponseEntity<?> getTickets(@RequestParam String participantId) {
         try {
-            List<TicketResponse> tickets = gameService.getTickets(userId);
+            List<TicketResponse> tickets = gameService.getTickets(participantId);
             return new ResponseEntity<>(tickets, HttpStatus.OK);
         } catch (NoResultException exception) {
             exception.printStackTrace();
