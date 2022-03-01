@@ -89,10 +89,10 @@ public class GameServiceImpl implements GameService {
         List<Number> numbers = new ArrayList<>();
         Set<Integer> numbersSet = new HashSet<>();
         Random random = new Random();
-        while (numbersSet.size() < 99) {
-            int number = random.nextInt(99) + 1;
+        while (numbersSet.size() < 90) {
+            int number = random.nextInt(90) + 1;
             while (numbersSet.contains(number)) {
-                number = random.nextInt(99) + 1;
+                number = random.nextInt(90) + 1;
             }
             numbersSet.add(number);
             Number num = new Number(number, game);
