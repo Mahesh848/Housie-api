@@ -4,6 +4,7 @@ import com.housie.dao.GameDao;
 import com.housie.model.Game;
 import com.housie.model.Number;
 import com.housie.model.Participant;
+import com.housie.model.Ticket;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -74,6 +75,16 @@ public class GameDaoImpl implements GameDao {
         Game gameInDb = session.load(Game.class, game.getId());
         gameInDb.update(game);
         session.update(gameInDb);
+        transaction.commit();
+    }
+
+    @Override
+    public void saveTickets(List<Ticket> tickets) {
+        Session session = sessionFactory.getCurrentSession();
+        Transaction transaction = session.beginTransaction();
+        for (Ticket ticket : tickets) {
+            session.save(ticket);
+        }
         transaction.commit();
     }
 }

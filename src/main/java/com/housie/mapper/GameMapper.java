@@ -18,7 +18,7 @@ public class GameMapper {
     }
 
     public static GameResponse mapTo(Game game) {
-        GameResponse gameResponse = new GameResponse(game.getUuid(), game.getCreatedBy().getName());
+        GameResponse gameResponse = new GameResponse(game.getUuid(), game.getCreatedBy().getId());
         return gameResponse;
     }
 
@@ -28,6 +28,6 @@ public class GameMapper {
     }
 
     public static Participant mapTo(ParticipantRequest participantRequest, Game game) {
-        return new Participant(participantRequest.getName(), game);
+        return new Participant(participantRequest.getName(), participantRequest.getTickets(), game);
     }
 }

@@ -3,10 +3,12 @@ package com.housie.model.web;
 public class ParticipantRequest {
     private String name;
     private String game;
+    private Integer tickets;
 
-    public ParticipantRequest(String name, String game) {
+    public ParticipantRequest(String name, String game, Integer tickets) {
         this.name = name;
         this.game = game;
+        this.tickets = tickets;
     }
 
     public String getName() {
@@ -23,5 +25,13 @@ public class ParticipantRequest {
 
     public void setGame(String game) {
         this.game = game;
+    }
+
+    public Integer getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Integer tickets) {
+        this.tickets = tickets;
     }
 }

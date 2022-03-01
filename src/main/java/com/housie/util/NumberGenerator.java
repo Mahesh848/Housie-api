@@ -1,6 +1,5 @@
-package com.housie.service.impl;
+package com.housie.util;
 
-import com.housie.dao.GameDao;
 import com.housie.model.Game;
 import com.housie.model.Number;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

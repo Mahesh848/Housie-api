@@ -12,12 +12,16 @@ public class Participant {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "tickets")
+    private Integer tickets;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "game_id")
     private Game game;
 
-    public Participant(String name, Game game) {
+    public Participant(String name, Integer tickets, Game game) {
         this.name = name;
+        this.tickets = tickets;
         this.game = game;
     }
 
@@ -45,5 +49,13 @@ public class Participant {
 
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    public Integer getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Integer tickets) {
+        this.tickets = tickets;
     }
 }

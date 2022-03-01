@@ -6,6 +6,8 @@ import com.housie.model.*;
 import com.housie.model.Number;
 import com.housie.model.web.*;
 import com.housie.service.GameService;
+import com.housie.util.NumberGenerator;
+import com.housie.util.TicketGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -30,7 +32,7 @@ public class GameServiceImpl implements GameService {
         game.setUuid(uuid);
         game.setStatus(GameStatus.IDEAL);
         gameDao.create(game);
-        Participant creator = createParticipantFrom(new ParticipantRequest(gameRequest.getCreatedBy(), game.getUuid()));
+        Participant creator = createParticipantFrom(new ParticipantRequest(gameRequest.getCreatedBy(), game.getUuid(), 0));
         creator = gameDao.addParticipant(creator);
         game.setCreatedBy(creator);
         gameDao.update(game);
@@ -41,6 +43,13 @@ public class GameServiceImpl implements GameService {
     public ParticipantResponse addParticipant(ParticipantRequest participantRequest) throws HousieException {
         Participant participant = createParticipantFrom(participantRequest);
         Participant p = gameDao.addParticipant(participant);
+        List<Ticket> tickets = new ArrayList<>();
+        for (int i=0; i<p.getTickets(); i++) {
+            TicketGenerator ticketGenerator = new TicketGenerator();
+            String ticketString = ticketGenerator.generateTicket();
+            tickets.add(new Ticket(ticketString, p));
+        }
+        gameDao.saveTickets(tickets);
         return GameMapper.mapTo(p);
     }
 
