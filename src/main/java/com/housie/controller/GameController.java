@@ -83,13 +83,41 @@ public class GameController {
     }
 
     @RequestMapping(value = "/getTickets", method = RequestMethod.GET)
-    public ResponseEntity<?> getTickets(@RequestParam String participantId) {
+    public ResponseEntity<?> getTickets(@RequestParam Integer participantId) {
         try {
             List<TicketResponse> tickets = gameService.getTickets(participantId);
             return new ResponseEntity<>(tickets, HttpStatus.OK);
         } catch (NoResultException exception) {
             exception.printStackTrace();
             ErrorResponse response = new ErrorResponse("Invalid user");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @RequestMapping(value = "/getPrizes", method = RequestMethod.GET)
+    public ResponseEntity<?> getPrizes(@RequestParam String gameUuid) {
+        try {
+            PrizesResponse response = gameService.getAmountForPrizes(gameUuid);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (NoResultException exception) {
+            exception.printStackTrace();
+            ErrorResponse response = new ErrorResponse("Invalid game");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @RequestMapping(value = "/addPrize", method = RequestMethod.POST)
+    public ResponseEntity<?> addPrize(@RequestBody AddPrizeRequest addPrizeRequest) {
+        try {
+            gameService.addPrize(addPrizeRequest.getType(), addPrizeRequest.getParticipantId());
+            return new ResponseEntity<>("Successfully added", HttpStatus.OK);
+        } catch (HousieException exception) {
+            exception.printStackTrace();
+            ErrorResponse response = new ErrorResponse(exception.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        } catch (PersistenceException exception) {
+            exception.printStackTrace();
+            ErrorResponse response = new ErrorResponse("Invalid prize type");
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }

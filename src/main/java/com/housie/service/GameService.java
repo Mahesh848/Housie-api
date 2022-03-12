@@ -15,5 +15,9 @@ public interface GameService {
 
     void stopGame(String gameUuid);
 
-    List<TicketResponse> getTickets(String participantId);
+    List<TicketResponse> getTickets(Integer participantId);
+
+    PrizesResponse getAmountForPrizes(String gameUuid);
+
+    void addPrize(String type, Integer participantId) throws HousieException;
 }

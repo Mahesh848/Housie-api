@@ -1,10 +1,8 @@
 package com.housie.dao.impl;
 
 import com.housie.dao.GameDao;
-import com.housie.model.Game;
+import com.housie.model.*;
 import com.housie.model.Number;
-import com.housie.model.Participant;
-import com.housie.model.Ticket;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -89,7 +87,7 @@ public class GameDaoImpl implements GameDao {
     }
 
     @Override
-    public List<Ticket> getTickets(String participantId) {
+    public List<Ticket> getTickets(Integer participantId) {
         Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
 
@@ -102,5 +100,58 @@ public class GameDaoImpl implements GameDao {
         transaction.commit();
 
         return tickets;
+    }
+
+    @Override
+    public int getCountOfTickets(Integer gameId) {
+        Session session = sessionFactory.getCurrentSession();
+        Transaction transaction = session.beginTransaction();
+
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Ticket> query = builder.createQuery(Ticket.class);
+        Root<Ticket> root = query.from(Ticket.class);
+        query.select(root).where(builder.equal(root.get("participant").get("game").get("id"), gameId));
+        Query<Ticket> q = session.createQuery(query);
+        List<Ticket> tickets = q.getResultList();
+        transaction.commit();
+
+        return tickets.size();
+    }
+
+    @Override
+    public void addPrize(Prize prize) {
+        Session session = sessionFactory.getCurrentSession();
+        Transaction transaction = session.beginTransaction();
+        session.save(prize);
+        transaction.commit();
+    }
+
+    @Override
+    public Participant getParticipant(Integer id) {
+        Session session = sessionFactory.getCurrentSession();
+        Transaction transaction = session.beginTransaction();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Participant> query = builder.createQuery(Participant.class);
+        Root<Participant> root = query.from(Participant.class);
+        query.select(root).where(builder.equal(root.get("id"), id));
+        Query<Participant> q = session.createQuery(query);
+        Participant participant = q.getSingleResult();
+        transaction.commit();
+
+        return participant;
+    }
+
+    @Override
+    public boolean isAlreadyExistsForThisGame(String type, Integer id) {
+        Session session = sessionFactory.getCurrentSession();
+        Transaction transaction = session.beginTransaction();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Prize> query = builder.createQuery(Prize.class);
+        Root<Prize> root = query.from(Prize.class);
+        query.select(root).where(builder.equal(root.get("participant").get("game").get("id"), id));
+        Query<Prize> q = session.createQuery(query);
+        List<Prize> prizes = q.getResultList();
+        transaction.commit();
+        return prizes.size() > 0;
     }
 }

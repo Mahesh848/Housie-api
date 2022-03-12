@@ -70,6 +70,28 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
+    public PrizesResponse getAmountForPrizes(String gameUuid) {
+        Integer totalAmount = getTotal(gameUuid);
+        Double amountForHouseFull = PrizeType.getAmountForType("house_full", totalAmount);
+        Double amountForOthers = PrizeType.getAmountForType("first_five", totalAmount);
+        return new PrizesResponse(amountForHouseFull, amountForOthers);
+    }
+
+    @Override
+    public void addPrize(String type, Integer participantId) throws HousieException {
+        type = type.toLowerCase();
+        if (!PrizeType.isValid(type)) throw new HousieException("Invalid prize type");
+        Participant participant = gameDao.getParticipant(participantId);
+        if (gameDao.isAlreadyExistsForThisGame(type, participant.getGame().getId())) throw new HousieException("Invalid prize type");
+        Prize prize = new Prize();
+        prize.setType(type);
+        prize.setParticipant(participant);
+        Integer totalAmount = getTotal(participant.getGame().getUuid());
+        prize.setAmount(PrizeType.getAmountForType(type, totalAmount));
+        gameDao.addPrize(prize);
+    }
+
+    @Override
     public void stopGame(String gameUuid) {
         Timer timer = gameToTimerMap.get(gameUuid);
         timer.cancel();
@@ -80,7 +102,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<TicketResponse> getTickets(String participantId) {
+    public List<TicketResponse> getTickets(Integer participantId) {
         List<Ticket> tickets = gameDao.getTickets(participantId);
         return GameMapper.mapTo(tickets);
     }
@@ -105,5 +127,12 @@ public class GameServiceImpl implements GameService {
             numbers.add(num);
         }
         return numbers;
+    }
+
+    private Integer getTotal(String gameUuid) {
+        Game game = gameDao.getByUuid(gameUuid);
+        Integer noOfTickets = gameDao.getCountOfTickets(game.getId());
+        Integer totalAmount = noOfTickets * game.getTicketPrice();
+        return totalAmount;
     }
 }

@@ -16,5 +16,6 @@
         <mapping class="com.housie.model.Participant" />
         <mapping class="com.housie.model.Number" />
         <mapping class="com.housie.model.Ticket" />
+        <mapping class="com.housie.model.Prize" />
     </session-factory>
 </hibernate-configuration>

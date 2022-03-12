@@ -1,9 +1,7 @@
 package com.housie.dao;
 
-import com.housie.model.Game;
+import com.housie.model.*;
 import com.housie.model.Number;
-import com.housie.model.Participant;
-import com.housie.model.Ticket;
 
 import java.util.List;
 
@@ -20,5 +18,13 @@ public interface GameDao {
 
     void saveTickets(List<Ticket> tickets);
 
-    List<Ticket> getTickets(String participantId);
+    List<Ticket> getTickets(Integer participantId);
+
+    int getCountOfTickets(Integer gameId);
+
+    void addPrize(Prize prize);
+
+    Participant getParticipant(Integer id);
+
+    boolean isAlreadyExistsForThisGame(String type, Integer id);
 }
