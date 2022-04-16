@@ -4,13 +4,13 @@ public class GameRequest {
     private String passcode;
     private Integer ticketPrice;
     private String createdBy;
-    private Integer noOfTickets;
+    private Integer tickets;
 
     public GameRequest(String passcode, Integer ticketPrice, String createdBy, Integer noOfTickets) {
         this.passcode = passcode;
         this.ticketPrice = ticketPrice;
         this.createdBy = createdBy;
-        this.noOfTickets = noOfTickets;
+        this.tickets = noOfTickets;
     }
 
     public String getPasscode() {
@@ -37,11 +37,11 @@ public class GameRequest {
         this.createdBy = createdBy;
     }
 
-    public Integer getNoOfTickets() {
-        return noOfTickets;
+    public Integer getTickets() {
+        return tickets;
     }
 
-    public void setNoOfTickets(Integer noOfTickets) {
-        this.noOfTickets = noOfTickets;
+    public void setTickets(Integer tickets) {
+        this.tickets = tickets;
     }
 }
