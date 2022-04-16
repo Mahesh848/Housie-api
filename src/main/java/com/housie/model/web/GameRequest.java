@@ -4,11 +4,13 @@ public class GameRequest {
     private String passcode;
     private Integer ticketPrice;
     private String createdBy;
+    private Integer noOfTickets;
 
-    public GameRequest(String passcode, Integer ticketPrice, String createdBy) {
+    public GameRequest(String passcode, Integer ticketPrice, String createdBy, Integer noOfTickets) {
         this.passcode = passcode;
         this.ticketPrice = ticketPrice;
         this.createdBy = createdBy;
+        this.noOfTickets = noOfTickets;
     }
 
     public String getPasscode() {
@@ -33,5 +35,13 @@ public class GameRequest {
 
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public Integer getNoOfTickets() {
+        return noOfTickets;
+    }
+
+    public void setNoOfTickets(Integer noOfTickets) {
+        this.noOfTickets = noOfTickets;
     }
 }

@@ -32,7 +32,7 @@ public class GameServiceImpl implements GameService {
         game.setUuid(uuid);
         game.setStatus(GameStatus.IDEAL);
         gameDao.create(game);
-        Participant creator = createParticipantFrom(new ParticipantRequest(gameRequest.getCreatedBy(), game.getUuid(), 0));
+        Participant creator = createParticipantFrom(new ParticipantRequest(gameRequest.getCreatedBy(), game.getUuid(), gameRequest.getNoOfTickets()));
         creator = gameDao.addParticipant(creator);
         game.setCreatedBy(creator);
         gameDao.update(game);
